@@ -34,6 +34,7 @@ const PRODUCTS_STORE = "wc/admin/products";
  */
 export default function Edit() {
 	const blockProps = useBlockProps();
+	const currencySymbol = wcSettings?.currency?.symbol || "";
 	const products = useSelect( ( select ) => {
 		const { getProducts } = select( PRODUCTS_STORE );
 
@@ -41,17 +42,21 @@ export default function Edit() {
 	}, [] );
 
 	if ( !products ) {
-		return <div {...blockProps}>Loading…</div>;
+		return <div {...blockProps}>{ __( "Loading…", "tulum-product-collection" ) }</div>;
 	}
 
 	return (
 	<>
 		<div { ...blockProps }>
 			<ul className="products">
-				{ products.map( ( product ) => (
-					<li className="product" key={ product.slug }>
+				{ products.map( ( { images, name, price, slug } ) => (
+					<li className="product" key={ slug }>
 						<article>
-							<h1 className="product__name">{ product.name }</h1>
+							<img src={ images?.[0]?.src } className="product__image" />
+							<h1 className="product__name">{ name }</h1>
+							<div className="product__details">
+								<span className="product__price">{ currencySymbol } { price }</span>
+							</div>
 						</article>
 					</li>
 				) ) }
