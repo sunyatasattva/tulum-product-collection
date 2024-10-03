@@ -25,6 +25,10 @@ import "./editor.scss";
 const PRODUCTS_STORE = "wc/admin/products";
 
 const PaginationItem = ({ page }) => {
+	if ( !page ) return (
+		<span className="pagination__page--more">…</span>
+	);
+
 	return page === 1 ? (
 		<span className="pagination__page--is-active">{ page }</span>
 	) : (
@@ -71,7 +75,7 @@ export default function Edit() {
 			</ul>
 			<nav className="pagination">
 				<ul className="pagination__pages">
-					{ [ 1, 2, 3, 4, 5 ].map( ( page ) => (
+					{ [ 1, 2, 3, 4, null, 9 ].map( ( page ) => (
 						<li className="pagination__page">
 							<PaginationItem page={ page } />
 						</li>
