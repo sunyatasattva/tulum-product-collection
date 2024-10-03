@@ -6,6 +6,14 @@
 .wp-block-woo-dm-product-collection {
 	.products {
 		list-style-type: none;
+		margin: 0;
+		padding: 0;
+
+		&.display-as-grid {
+			display: grid;
+			gap: 1rem;
+			grid-template-columns: 1fr 1fr;
+		}
 
 		.product {
 			&__img {

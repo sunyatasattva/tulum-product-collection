@@ -8,7 +8,12 @@
 	"icon": "palmtree",
 	"description": "A block for displaying the products in your shop catalog.",
 	"example": {},
-	"attributes": {},
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "list"
+		}
+	},
 	"supports": {
 		"html": false
 	},

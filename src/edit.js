@@ -2,9 +2,11 @@
  * External dependencies
  */
 
-import { useBlockProps } from "@wordpress/block-editor";
+import { BlockControls, useBlockProps } from "@wordpress/block-editor";
+import { ToolbarGroup } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
+import { list, grid } from "@wordpress/icons";
 
 /**
  * Internal dependencies
@@ -36,6 +38,29 @@ const PaginationItem = ({ page }) => {
 	)
 };
 
+const ToolbarControls = ({ layout, setAttributes }) => {
+	const displayLayoutControls = [
+		{
+			icon: list,
+			title: __( "List view", "tulum-product-collection" ),
+			onClick: () => setAttributes({ layout: "list" }),
+			isActive: layout === "list",
+		},
+		{
+			icon: grid,
+			title: __( "Grid view", "tulum-product-collection" ),
+			onClick: () => setAttributes({ layout: "grid" }),
+			isActive: layout === "grid",
+		},
+	];
+
+	return (
+		<BlockControls>
+			<ToolbarGroup controls={displayLayoutControls} />
+		</BlockControls>
+	);
+};
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -44,7 +69,8 @@ const PaginationItem = ({ page }) => {
  *
  * @return {Element} Element to render.
  */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { layout } = attributes;
 	const blockProps = useBlockProps();
 	const currencySymbol = wcSettings?.currency?.symbol || "";
 	const products = useSelect( ( select ) => {
@@ -60,7 +86,7 @@ export default function Edit() {
 	return (
 	<>
 		<div { ...blockProps }>
-			<ul className="products">
+			<ul className={ `products display-as-${ layout }` }>
 				{ products.map( ( { images, name, price, slug } ) => (
 					<li className="product" key={ slug }>
 						<article>
@@ -83,6 +109,7 @@ export default function Edit() {
 				</ul>
 			</nav>
 		</div>
+		<ToolbarControls layout={ layout } setAttributes={ setAttributes } />
 	</>
 	);
 }
