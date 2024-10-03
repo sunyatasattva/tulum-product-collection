@@ -24,6 +24,14 @@ import "./editor.scss";
  */
 const PRODUCTS_STORE = "wc/admin/products";
 
+const PaginationItem = ({ page }) => {
+	return page === 1 ? (
+		<span className="pagination__page--is-active">{ page }</span>
+	) : (
+		<a href="#" className="pagination__page--link">{ page }</a>
+	)
+};
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -42,7 +50,7 @@ export default function Edit() {
 	}, [] );
 
 	if ( !products ) {
-		return <div {...blockProps}>{ __( "Loading…", "tulum-product-collection" ) }</div>;
+		return <div { ...blockProps }>{ __( "Loading…", "tulum-product-collection" ) }</div>;
 	}
 
 	return (
@@ -61,6 +69,15 @@ export default function Edit() {
 					</li>
 				) ) }
 			</ul>
+			<nav className="pagination">
+				<ul className="pagination__pages">
+					{ [ 1, 2, 3, 4, 5 ].map( ( page ) => (
+						<li className="pagination__page">
+							<PaginationItem page={ page } />
+						</li>
+					) )}
+				</ul>
+			</nav>
 		</div>
 	</>
 	);
