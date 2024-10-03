@@ -76,7 +76,7 @@ export default function Edit() {
 			<nav className="pagination">
 				<ul className="pagination__pages">
 					{ [ 1, 2, 3, 4, null, 9 ].map( ( page ) => (
-						<li className="pagination__page">
+						<li className="pagination__page" key={ page }>
 							<PaginationItem page={ page } />
 						</li>
 					) )}
