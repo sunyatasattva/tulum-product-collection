@@ -20,7 +20,7 @@ $wrapper_attributes = get_block_wrapper_attributes();
 
 <div <?= $wrapper_attributes; ?> data-wp-interactive="tulum-product-collection">
 	<div data-wp-router-region="tulum-product-collection">
-		<ul class="products">
+		<ul class="products display-as-<?= $attributes['layout'] ?>">
 			<?php foreach ($products as $product):
 				$data = $product->get_data();
 			?>
