@@ -4,7 +4,16 @@
  */
 
 $currency_symbol = get_woocommerce_currency_symbol( get_woocommerce_currency() );
-$products = wc_get_products( array() );
+$page_number = (int) ( $_GET['page_num'] ?? 1 );
+
+$query = array(
+	"paginate" => true,
+	"page" => $page_number,
+);
+
+$response = wc_get_products( $query );
+$products = $response->products;
+$max_num_pages = $response->max_num_pages;
 
 $wrapper_attributes = get_block_wrapper_attributes();
 ?>
@@ -28,4 +37,17 @@ $wrapper_attributes = get_block_wrapper_attributes();
 			</li>
 		<?php endforeach; ?>
 	</ul>
+	<nav class="pagination">
+		<ul class="pagination__pages">
+			<?php for ( $i = 1; $i <= $max_num_pages; $i++ ): ?>
+				<li class="pagination__page">
+					<?php if ( $i === $page_number ): ?>
+						<span class="pagination__page--is-active"><?= $i; ?></span>
+					<?php else: ?>
+						<a class="pagination__page--link" href="?page_num=<?= $i; ?>"><?= $i; ?></a>
+					<?php endif; ?>
+				</li>
+			<?php endfor; ?>
+		</ul>
+	</nav>
 </div>
