@@ -12,6 +12,10 @@
 		"layout": {
 			"type": "string",
 			"default": "list"
+		},
+		"featured": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

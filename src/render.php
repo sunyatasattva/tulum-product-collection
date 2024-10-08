@@ -9,6 +9,7 @@ $page_number = (int) ( $_GET['page_num'] ?? 1 );
 $query = array(
 	"paginate" => true,
 	"page" => $page_number,
+	"featured" => $attributes['featured'],
 );
 
 $response = wc_get_products( $query );
