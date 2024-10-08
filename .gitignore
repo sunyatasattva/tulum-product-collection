@@ -31,3 +31,5 @@ build/
 
 # dotenv environment variables file
 .env
+
+vendor/
