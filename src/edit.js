@@ -2,8 +2,8 @@
  * External dependencies
  */
 
-import { BlockControls, useBlockProps } from "@wordpress/block-editor";
-import { ToolbarGroup } from "@wordpress/components";
+import { BlockControls, InspectorControls, useBlockProps } from "@wordpress/block-editor";
+import { ToolbarGroup, ToggleControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { list, grid } from "@wordpress/icons";
@@ -61,6 +61,16 @@ const ToolbarControls = ({ layout, setAttributes }) => {
 	);
 };
 
+const FeaturedControl = ({ featured, setAttributes }) => (
+	<InspectorControls>
+		<ToggleControl
+			checked={ featured }
+			label="Show only featured products"
+			onChange={ ( value ) => setAttributes( { featured: value } ) }
+		/>
+	</InspectorControls>
+);
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -70,14 +80,14 @@ const ToolbarControls = ({ layout, setAttributes }) => {
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { layout } = attributes;
+	const { layout, featured } = attributes;
 	const blockProps = useBlockProps();
 	const currencySymbol = wcSettings?.currency?.symbol || "";
 	const products = useSelect( ( select ) => {
 		const { getProducts } = select( PRODUCTS_STORE );
 
-		return getProducts({});
-	}, [] );
+		return getProducts({ featured });
+	}, [ featured ] );
 
 	if ( !products ) {
 		return <div { ...blockProps }>{ __( "Loading…", "tulum-product-collection" ) }</div>;
@@ -110,6 +120,7 @@ export default function Edit({ attributes, setAttributes }) {
 			</nav>
 		</div>
 		<ToolbarControls layout={ layout } setAttributes={ setAttributes } />
+		<FeaturedControl featured={ featured } setAttributes={ setAttributes } />
 	</>
 	);
 }
