@@ -27,3 +27,13 @@ function create_block_tulum_product_collection_block_init() {
 	register_block_type_from_metadata( __DIR__ . '/build' );
 }
 add_action( 'init', 'create_block_tulum_product_collection_block_init' );
+
+function enqueue_my_custom_product_collection_script() {
+    wp_enqueue_script(
+        'tulum-product-collection',
+        plugins_url( __DIR__ . '/src/register-new-collection.js', __FILE__ ),
+        array( 'wc-settings', 'wc-blocks-registry' ),
+        10
+    );
+}
+add_action( 'enqueue_block_editor_assets', 'enqueue_my_custom_product_collection_script' );
